@@ -1,19 +1,24 @@
 package lexilab;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class InputReader {
 
+    private static final Scanner scanner = new Scanner(System.in);
+
     // select between no and yes
-    public static int select() { return select(new String[] {"no", "yes"}); }
+    public static int selectNoYes() {
+        List<String> noYes = new ArrayList<>();
+        noYes.add("no");
+        noYes.add("yes");
+        return select(noYes);
+    }
 
     // return the index of a selection within an array that the user makes
-    public static int select(String[] s) {
+    public static int select(List<String> options) {
         // always add a quit option
-        List<String> options = new ArrayList<>(Arrays.asList(s));
         options.add("quit program");
 
         for (int i = 0; i < options.size(); i++) {
@@ -36,7 +41,6 @@ public class InputReader {
 
     // read valid integer input from the cli
     public static int getValidIntegerInput(int max) {
-        Scanner scanner = new Scanner(System.in);
         int input = -1;
 
         do {
@@ -47,17 +51,17 @@ public class InputReader {
         return input;
     }
 
-    // read CLI user input as String, no spaces allowed
-    public static String readString() {
-        Scanner scanner = new Scanner(System.in);
-        String input;
+    // read CLI user input as String
+    public static String readString() { return scanner.nextLine(); }
 
-        while (true) {
-            input = scanner.nextLine().trim();  // Read the input and remove leading/trailing spaces
-            if (input.contains(" ")) {
-                System.out.println("Input cannot contain spaces.");
-            } else { break; }
-        }
+    // read CLI user input as String, no spaces allowed
+    public static String readStringNoSpace() {
+        String input = "";
+
+        do {
+            System.out.print("Input cannot contain spaces: ");
+            input = readString().trim();
+        } while (input.contains(" "));
 
         return input;
     }
