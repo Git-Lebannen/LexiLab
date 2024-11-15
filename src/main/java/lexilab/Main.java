@@ -7,7 +7,7 @@ public class Main {
     private static final DBInterface dbi = DBInterface.getInstance();
     private static final String commands = """
             At any time, input 'help' to checkout possible commands.
-            Input 'quit' to return to start screen.
+            Input 'exit' to return to start screen.
             Supported commands:
             "add (word) (translation) (optional: tag)": Adds a word, its translation and an optional tag, used to sort vocabulary into groups.
             "rem (word/translation)": Removes the word and its translation.
@@ -16,9 +16,10 @@ public class Main {
             """;
 
     public static void main(String[] args) throws DBException {
-        String commandInput;
+        String[] commandInput;
         boolean startScreen = false;
         while (true) {
+            // only print start screen if user has yet to enter the input loop
             if (!startScreen) {
 
                 // if there are no vocab sets (databases yet)
@@ -50,15 +51,27 @@ public class Main {
                 dbi.selectDB(dbi.getDatabaseNames().get(setIndex));
                 System.out.print(commands);
 
-                // make sure the start setup isn't printed for users in the lab loop
+                // make sure the start setup isn't printed for users in the input loop
                 startScreen = true;
             }
 
             // user input loop
-            commandInput = InputReader.readString();
-            switch (commandInput.toLowerCase()) {
-                case "quit": startScreen = false; break;
+            commandInput = InputReader.readString().split("\\s+");
+            switch (commandInput[0].toLowerCase()) {
+                case "exit": startScreen = false; break;
                 case "help": System.out.print(commands); break;
+                case "add":
+                    System.out.println("Add a vocab");
+                    break;
+                case "rem":
+                    System.out.println("Remove a vocab");
+                    break;
+                case "tags":
+                    System.out.println("Print all tags");
+                    break;
+                case "lab":
+                    System.out.println("Start quizzing");
+                    break;
             }
         }
     }

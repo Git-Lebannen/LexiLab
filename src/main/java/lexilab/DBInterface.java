@@ -15,7 +15,7 @@ public class DBInterface {
 
     public static DBInterface getInstance() { return instance; }
 
-    // Function to return SQLite all existing databases' names as a String array
+    // Function to return SQLite all existing databases' names as a String list
     public List<String> getDatabaseNames() throws DBException {
         List<String> databaseNames = new ArrayList<>();
         File folder = new File(folderPath);
